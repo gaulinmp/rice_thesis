@@ -1,0 +1,203 @@
+The previous sections treat individual risk factors as fungible, namely that they have equal weighting in their disclosure, as well as their predictive ability of adverse outcomes.
+This assumption is unlikely to hold, as multiple risk factors commonly address multiple different risks of adverse events which potentially have differing impacts on 
+For example a disclosure about the risk surrounding a new drug approval addresses a dichotomous outcome based on the regulatory decision, while a disclosure about cyber-security risk might warn of detrimental impact to a firm's public image.
+To investigate to what extent the conclusions of predictive ability of risk factors generalizes to the various different risks being disclosed, I use textual analysis techniques to classify individual risk factor disclosures.
+
+
+To classify risk factor disclosures and determine to what risks they pertain, I use the latent Dirichlet allocation (LDA) technique to discover and extract the most prominent topics.
+The approach of using LDA to model topics in textual datasets originated with \cite{blei_2003}.
+\cite{blei_2003} describes a generative probabilistic model in which documents are composed of a distribution of topics, which themselves are composed of a distribution over the underlying words.
+The underlying idea is that different topics have a linguistic `fingerprint' corresponding to the words commonly used within the topic's domain, and a document can be a mixture of topics.
+The corresponding plate model diagram of LDA is shown in Figure \ref{fig:lda_plate_smooth}. 
+
+\begin{figure}[ht!]
+	\caption{Graphical plate diagram representation of smoothed LDA model}
+	\label{fig:lda_plate_smooth}
+	
+	Figure \ref{fig:lda_plate_smooth} shows a `plate' diagram representation of the smoothed LDA model developed by \cite{blei_2003}.
+	The boxes, or `plates' represent the objects modeled in the generative LDA approach.
+	In this diagram, the outer plate \textbf{M} represents the document level, and the inner plate \textbf{N} represents topics (i.e. distributions of words) within the documents.
+	
+	\skipline
+	\centering
+	\includegraphics[width=4in]{Latent_Dirichlet_allocation_smoothed_plate.eps}
+\end{figure}
+
+
+The model, as developed in \cite{blei_2003} and implemented in this study, assumes the corpus has \textbf{M} documents each containing \textbf{N} words,%
+\footnote{\textbf{N} can be a random variable which is different for each document, but is independent of the other variables in the model, thus can be considered constant without loss of generality.}
+which come from a dictionary of \textbf{V} total `known' words.
+The model has the following steps for each document.
+First, the distribution of topics, $\theta$ is chosen from a Dirichlet distribution over prior $\alpha$.
+$\theta$, a \textit{k}-dimension vector, is effectively the true distribution of topics in the document, from which the generation of each word will sample.
+Second, the distribution of words conditional on the topic, $\beta$ is chosen from a Dirichlet distribution over the prior $\eta$ (a scalar).%
+\footnote{The initial model presented assumes that $\beta$ is exogenous, but the smoothed version presented here smooths probabilities across all words in the corpus, including those not seen in training by assuming $\beta$ itself is a random variable to be estimated.}
+$\beta$, a \textit{k} by \textbf{V} matrix, is the probability of a given word occurring in a given topic, essentially a look-up table for word occurrence probability conditional on the topic.
+Lastly, for each word \textit{i} in the document, a random topic, $z_i$, is selected from the prior $\theta$, and the word $w_i$ is selected conditional on this topic.
+This last step is what differentiates the LDA model from more traditional hierarchical Bayesian models, in that it chooses a topic for \textit{each word}, instead of choosing a topic for \textit{each document}.
+This feature allows for a document to comprise multiple topics, each with a `loading' or weight in the document.
+This results in the joint distribution of latent topic and word loading, as well as observed topics and words:
+
+\begin{equation}
+p(\theta,\beta,z,w | \alpha, \eta) = p(\theta | \alpha) p(\beta | \eta) \prod_{n=1}^{N} p(z_n | \theta) p(w_n | z_n, \beta)
+\end{equation}  
+
+
+To extract topics from a corpus, which in this study is the set of risk factor disclosures, the researcher must make some discretionary assumptions about \textit{k}, $\alpha$, and $\eta$.
+The primary choice is the assumption of how many topics contained in the corpus, \textit{k}.
+This choice is one faced in many taxonomies, specifically how and where to draw divisions between groups.
+One example of this is the Risk Factor Landscape study from the IRRC Institute \citep{lukomnik_2016}, which classifies risk factor disclosures into 17 categories.
+However their classification does not have any domain specific risks.
+To allow for the potential of domain specific topics to be extracted, I use 25 topics in my LDA analysis.
+
+
+Another discretionary choice to make in the extraction of textual topics is the definition of document.
+One approach might be to use the whole risk-factor section as the document.
+However this would require the algorithm to handle documents containing all the risk factor topics simultaneously, with the majority of differences potentially being domain specific.
+I take a more sparse approach, and define the document at the individual risk factor level.
+This allows for a more sparse topic mixture in each document, and potentially allows for more even mixtures of generic risks and domain-specific risks.
+For example competition is a ubiquitous risk factor, but each industry may discuss it differently, potentially as some mixture between a domain topic and the competition topic.
+
+
+To estimate the LDA parameters, I use the publicly available gensim software.%
+\footnote{Available at \bluehref{https://github.com/RaRe-Technologies/gensim}{github.com/RaRe-Technologies/gensim}}
+I scale the bag-of-word vectors by the inverse-document frequency, a method developed by \cite{salton_1986} commonly adopted and referred to as \textit{tf-idf} (term-frequency inverse document-frequency: word count / number of documents containing the word).
+I also remove those words which appear in more than half of the risk factors (eliminating frequent words like and, the, etc.), and words occurring in fewer than 200 risk factors, resulting in a final dictionary containing 6,950 words.
+I use priors for $\alpha$ and $\eta$ empirically based on the data, and perform multiple passes over the corpus.
+The result of this analysis are displayed in Appendix \ref{App:lda}, along with a `name' of the topic based on researcher judgment from the list of most frequent words.%
+    \footnote{The name of the topic is for referential convenience, and has no bearing on the analysis.}
+
+
+I classify risk factors a pertaining to only one topic, namely that with the highest posterior probability.
+This may obfuscate the presence of a more weakly discussed risk factor, but it is more consistent with my undergirding assumption in this study that individual risk factor disclosures pertain to specific adverse outcomes, for which one topic plausibly applies.
+I then compute the same measures of risk factor disclosures, (new, removed, and maintained) for each LDA topic.
+Table \ref{tab:lda_fyear_ratio} presents the average percentage of a firm's disclosed risk factors for each topic, over time.
+There are some patterns in the distribution of risk factors over topics which evolve over time.
+For example the \textit{Financing} topic, which discusses equity and real-estate related risks, significantly increases during the financial crisis in 2008.
+However other factors, for example the oil price crashes of 2008 and 2014 are not reflected in a material change in the level of discussion of these risks.
+
+
+
+\begin{thesistable}{Portion of Total Risk Factors by Topic Across Time}{\ref{tab:lda_fyear_ratio}}
+	\label{tab:lda_fyear_ratio}
+	
+	Table \ref{tab:lda_fyear_ratio} reports the average percentage of risk factors a firm has in a given topic, by fiscal year.
+	Topics are described in Appendix \ref{App:lda}.
+	
+	\startdata
+	%    \setlength\tabcolsep{.35em}
+	\input{../../outputs/lda_by_fyear_total_ratio.tex}
+	%    \input{../../outputs/lda_by_fyear_total.tex}
+\end{thesistable}
+
+
+The intent of focusing on individual risk factor topics is to lend robustness to the conclusion that firms disclose risk factors to predict adverse outcomes.
+The tests have focused on firm-specific adverse outcomes, based on the argument that a sufficiently adverse event could detrimentally impact the operations of the firm and result in a the bottom line outcomes I focus on (net loss, etc.).
+One benefit of focusing on the bottom line is that researcher discretion is not required to relate specific risk disclosures to their appropriate firm accounts.
+Such discretionary decisions are required, however, when studying the risk \textit{topics} being disclosed, because the channel through which the disclosure forecasts an event becomes specific to the risk disclosure topic.
+For example a risk factor disclosure under the topic \textit{Competition} could pertain to reduced revenue stemming from increased price competition, or it could pertain to a reduced profit margin stemming from increased upstream prices.
+Linking the topic of disclosure to firm-specific accounts is potentially confounded by the idiosyncratic nature by which a topic may relate to the firm.
+
+One firm-level adverse outcome which is plausibly related to an extracted topic is the presence of a goodwill impairment.
+Since the introduction of SFAS 142, firm's goodwill has to undergo a yearly impairment test.
+%TODO: Year and url
+Failing this test can be significantly detrimental to the firm's net income, thus early warning of potential impairments could provide legal benefit to managers.
+\cite{hayn_2006} suggests that the economic indicators of goodwill impairment lead the accounting write-off, sometimes by multiple years.
+This suggests that managers may reasonably predict the presence or probability of future adverse impairment test outcomes.
+This potential for predictability of goodwill impairments presents an interesting setting in which I can test whether managers do systematically warn of these adverse events through the risk factor disclosures, and specifically those topics pertaining to goodwill and impairments: \textit{Strategic Alliance} and \textit{Accounting}.
+The results of these tests, mirroring those performed in Table \ref{tab:predict_adverse_cont}, are presented in Table \ref{tab:lda_goodwill}.
+
+
+
+\begin{thesistable}{Risk Factors and Future Goodwill Impairments}{\ref{tab:lda_goodwill}}
+	\label{tab:lda_goodwill}
+	
+	Table \ref{tab:lda_goodwill} reports the average marginal effects from a regression of the presence of a goodwill impairment on risk factor disclosures under the \textit{Strategic Alliance} (\textit{SA}) and \textit{Accounting} topics.
+	The topics are described in Appendix \ref{App:lda}.
+	The sample omits repeated goodwill impairment observations, similar to the filter in Table \ref{tab:predict_adverse_norepeat}.
+	The $Log(\Delta \# SA)$ and $Log(\Delta \# Acct.)$ coefficients are calculated as the log of one plus the difference in new and removed risk factor disclosures of the respective topics, less the minimum difference to maintain a positive value in the logarithm function.
+    The controls included are those used in Table \ref{tab:predict_adverse_cont}: \textit{Log(Market Equity)}, \textit{Big N}, \textit{Book-to-Market}, \textit{Tangibility}, \textit{Leverage}, \textit{Share Turnover}, \textit{Beta}, and \textit{Excess Returns}, \textit{Standard Deviation}, and \textit{Skewness}.
+    \postamble
+	
+	\startdata
+	\input{../../outputs/lda_predict_goodwill.tex}
+\end{thesistable}
+
+The results in Table \ref{tab:lda_goodwill} suggest that firms increase their disclosure of risks relating to \textit{Strategic Alliance} (e.g. M\&A activity) in advance of a goodwill write-off
+However there is not significant evidence of an increase in the discussion of \textit{Accounting} terms, which includes goodwill and impairments.
+Given the findings in \cite{hayn_2006} that economic indicators of goodwill impairments precede the observed write-off by multiple years, it may be the case that firms disclose of goodwill impairments more than one year in advance.
+To test this, in untabulated results, I add a second lag of the accounting topic disclosures, and find a significant positive relationship (T-stat=2.19), suggesting managers potentially warn of impending impairments further in advance.
+
+
+
+To further provide suggestive evidence that managers warn of adverse outcomes, I test whether managers forecast macro level outcomes.
+Specifically, I focus the price of oil as proxy for a potentially significant adverse outcomes.
+Because many industries are affected by the price of oil, the expected cost of significant shifts in the price of oil may be sufficient to warrant a risk factor disclosure.
+Testing the disclosure of risks relating to the \textit{Energy} topic against future changes in the price of oil lends evidence as to whether managers are incorporating their expectations about future outcomes in their disclosure decisions.
+The tests of the change of oil price on risk factors are presented in Table \ref{tab:lda_oil_price}.%
+	\footnote{The oil price is measured using the end of month spot price for West Texas Intermediate (WTI), a common benchmark for oil pricing. Data are downloaded from the U.S. Energy Information Administration. Url: \bluehref{https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=pet&s=rwtc&f=m}{www.eia.gov/dnav/pet/pet\_pri\_spt\_s1\_d.htm}.}
+
+
+
+\begin{thesistable}{Risk Factors and Future Oil Price}{\ref{tab:lda_oil_price}}
+    \label{tab:lda_oil_price}
+    
+    Table \ref{tab:lda_oil_price} reports the results of a regression of the change in oil price on risk factor disclosures under the \textit{Energy} topic.
+    The topic is described in Appendix \ref{App:lda}.
+    $ \Delta Oil\ Price $ is measured as the difference between the monthly price of oil 3 months after the fiscal year end, less the price of oil at the fiscal year end.
+    The controls included are those used in Table \ref{tab:predict_adverse_cont}: \textit{Log(Market Equity)}, \textit{Big N}, \textit{Book-to-Market}, \textit{Tangibility}, \textit{Leverage}, \textit{Share Turnover}, \textit{Beta}, and \textit{Excess Returns}, \textit{Standard Deviation}, and \textit{Skewness}.
+    \postamble
+    
+    \startdata
+    \input{../../outputs/lda_predict_crude_growth_controls.tex}
+\end{thesistable}
+
+
+
+The results in Table \ref{tab:lda_oil_price} suggest that on average, firms disclose more overall risk factors in advance of relative oil price declines.%
+	\footnote{Given the nature of a fixed effect regression, declines are relative to the average change in oil price.}
+This relation also exists for the \textit{Energy} topic, suggesting firms disclose more risk factors specifically about energy topics in advance of price declines.
+Similarly, firms remove more risk factors in advance of subsequent oil price increases, consistent with managers `informatively' updating their set of disclosed risk factors by actively removing obsolete risk factor disclosures.
+The net increase in the disclosure of risk factors relating to the \textit{Energy} topic is also negatively associated with oil price changes, suggesting firms disclose overall more disclosure about energy related risk factors ahead of price declines.%
+    \footnote{These results include the measures used in Table \ref{tab:predict_adverse_cont} to control for ex-ante expected changes in the risk factors, but are robust to the exclusion of these controls, with the exception of the coefficient on new \textit{Energy} risk factor disclosures becoming insignificant in Specification (2).}
+
+
+
+In general, the results of robustness tests conducted on the individual topic level are somewhat mixed.
+Some of the results are consistent with expectations linking topic to outcome, for example Goodwill and Oil prices.
+However in untabulated results, replacing the aggregated risk factor measures in Table  \ref{tab:predict_adverse} with the topic-level measures results in only a subset of topics being significantly predictive.
+This may suggest that only some topics have systematic relationships with the adverse outcomes I test in this study.
+An alternative interpretation is that some topics are less informative of short-term cash-flow outcomes, and the predictive framework employed herein is inflexible in accounting for differing horizons of forecasting.
+While future research looking at predictability by topic might find that specific subsets of risk factor disclosures are more predictive of specific outcomes, it could also be the case that aggregate change in risk factors is a more informative measure because it provides a more complete picture of managers assessed (and disclosed) beliefs.
+However the evidence presented herein suggests that both the aggregate and individual topic level risk factors are disclosed in a manner consistent with the hypothesis that managers disclose individual risk factors to warn of specific adverse outcomes.
+
+
+
+
+
+%\begin{thesistable}{Portion of Risk Factors by Topic Across Industries}{\ref{tab:lda_industry_ratio}}
+%    \label{tab:lda_industry_ratio}
+%    
+%    Table \ref{tab:lda_industry_ratio} reports the average percentage of risk factors a firm has in a given topic, by industry.
+%    Topics are described in Appendix \ref{App:lda}.
+%    Industry is defined using the Fama-French twelve industry classification.
+%    The numbered columns correspond to the following industries:
+%        (1) Non Durables,
+%        (2) Durables,
+%        (3) Manufacturing,
+%        (4) Energy,
+%        (5) Chemicals,
+%        (6) Business Equipment,
+%        (7) Telecommunications,
+%        (8) Utilities,
+%        (9) Shops \& Retail,
+%        (10) Healthcare,
+%        (11) Finance, and
+%        (12) Other.
+%    
+%    \startdata
+%    \setlength\tabcolsep{.5em}
+%    \input{../../outputs/lda_by_ff12_total_ratio.tex}
+%    %    \setlength\tabcolsep{.6em}
+%%        \input{../../outputs/lda_by_ff12_total.tex}
+%\end{thesistable}

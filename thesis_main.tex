@@ -1,0 +1,205 @@
+\documentclass[12pt]{ruthesis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   .d8888b.                    888                          d8b                             %
+%  d88P  Y88b                   888                          Y8P                             %
+%  888    888                   888                                                          %
+%  888        888  888 .d8888b  888888 .d88b.  88888b.d88b.  888 88888888  .d88b.            %
+%  888        888  888 88K      888   d88""88b 888 "888 "88b 888    d88P  d8P  Y8b           %
+%  888    888 888  888 "Y8888b. 888   888  888 888  888  888 888   d88P   88888888           %
+%  Y88b  d88P Y88b 888      X88 Y88b. Y88..88P 888  888  888 888  d88P    Y8b.               %
+%   "Y8888P"   "Y88888  88888P'  "Y888 "Y88P"  888  888  888 888 88888888  "Y8888            %
+%                                                                                            %
+%                 The following variables to reflect your thesis.                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ctitle{Risk Fact or Fiction:\\The Information Content of\\Risk Factor Disclosures}
+\title{Risk Fact or Fiction: The Information Content of Risk Factor Disclosures}
+\author{Maclean Gaulin}
+\department{Accounting, Jones Graduate School of Business}
+\school{Rice University}
+\degree{Doctor of Philosophy}
+
+% Change this to Rice shield and name, or your department's name.
+\coverart{\includegraphics{RiceBusiness_JGSB_2c_VectorShield.eps}}
+
+\committee {
+	K. Ramesh, Chair \\
+	Herbert S. Autrey Professor of Accounting \and
+	Brian Akins \\
+	Assistant Professor of Accounting \and
+	Brian Rountree \\
+	Associate Professor of Accounting \and
+	Robin Sickles \\
+	Reginald Henry Hargrove Chair of Economics \and
+	Shiva Sivaramakrishnan \\
+	Henry Gardiner Symonds Professor of Accounting
+}
+
+\address{Houston, Texas}
+\donemonth{March} \doneyear{2017} \makeindex
+
+
+\pdfinterwordspaceon
+\pdfminorversion=8
+
+\widowpenalty10000
+\clubpenalty10000
+\interfootnotelinepenalty=200
+
+\RequirePackage{amsmath}
+
+\RequirePackage[hang,flushmargin]{footmisc}
+\RequirePackage{setspace}
+
+\RequirePackage{caption}
+
+\RequirePackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\RequirePackage{microtype}
+% Disables fi -> ﬁ type ligatures
+\DisableLigatures[f]{}
+
+\RequirePackage{dcolumn}
+\RequirePackage{longtable}
+\RequirePackage{tabularx}
+\RequirePackage{afterpage}
+
+\usepackage[pdftex,
+            pdfpagelayout = OneColumn,
+            pdfpagemode = UseOutlines,
+            %TODO: Change these two values.
+%            pdftitle = "Risk Fact or Fiction: The Information Content of Risk Factor Disclosures",
+            pdftitle = {\@title},
+            pdfauthor = "Maclean Gaulin",
+            pdfdisplaydoctitle = true,
+            bookmarks,
+            bookmarksopen = true,
+            bookmarksnumbered = false,
+            breaklinks = true,
+            hidelinks,
+            colorlinks = false,
+            hyperindex = true,
+            hyperfigures]{hyperref}
+	\newcommand{\bluehref}[2]{{\color{blue}\href{#1}{#2}}}
+
+
+\RequirePackage[comma,longnamesfirst]{natbib}
+\RequirePackage{booktabs}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   .d8888b.                    888              .d8888b.                     888            %
+%  d88P  Y88b                   888             d88P  Y88b                    888            %
+%  888    888                   888             888    888                    888            %
+%  888        888  888 .d8888b  888888          888        88888b.d88b.   .d88888 .d8888b    %
+%  888        888  888 88K      888             888        888 "888 "88b d88" 888 88K        %
+%  888    888 888  888 "Y8888b. 888             888    888 888  888  888 888  888 "Y8888b.   %
+%  Y88b  d88P Y88b 888      X88 Y88b.  d8b      Y88b  d88P 888  888  888 Y88b 888      X88   %
+%   "Y8888P"   "Y88888  88888P'  "Y888 Y8P       "Y8888P"  888  888  888  "Y88888  88888P'   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\skipline}{\vspace{12pt}}
+\newcommand{\tablesize}{\scriptsize}
+
+
+\newenvironment{thesistable}[2]%
+{ % Begin begin
+    \newcommand{\postamble}{The variables are defined in Appendix \ref{App:vardef}.
+        Robust standard errors are clustered at the firm level and absolute t-statistics are reported in parentheses.
+        ***, **, and * indicate significance at the 0.01, 0.05, and 0.10 level, respectively.}
+    \newcommand{\startdata}{\centering \vspace{12pt} \tablesize}
+
+    \bgroup
+    % \def\arraystretch{1.2}
+    % \setlength\tabcolsep{.1em}
+    \begin{table}[!htb]
+            \caption{#1}
+            \footnotesize
+} % End begin
+{ % Begin end
+    \end{table}
+    \egroup
+} % End end
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  888888b.                 888                                                              %
+%  888  "88b                888                                                              %
+%  888  .88P                888                                                              %
+%  8888888K.   .d88b.   .d88888 888  888                                                     %
+%  888  "Y88b d88""88b d88" 888 888  888                                                     %
+%  888    888 888  888 888  888 888  888                                                     %
+%  888   d88P Y88..88P Y88b 888 Y88b 888                                                     %
+%  8888888P"   "Y88P"   "Y88888  "Y88888                                                     %
+%                                    888                                                     %
+%                               Y8b d88P                                                     %
+%                                "Y88P"                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\floatpagefraction}{1}
+\begin{document}
+
+\begin{frontmatter}
+    \pagenumbering{roman}
+    % Comment out to remove flashy cover
+    \makecover
+    % The maketitle makes the signature page
+    \maketitle
+    \include{abstract}
+    \include{acknowledgements}
+    \tableofcontents
+    \listoffigures
+    \listoftables
+\end{frontmatter}
+
+\pagenumbering{arabic}
+
+\linespacing{1.7}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                            Chapters                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Introduction} \label{ch:introduction}
+    \input{chapter-intro}
+
+\chapter{Risk Factor Disclosure Information Content} \label{ch:supply}
+    \input{chapter-supply}
+
+\chapter{Conclusion} \label{ch:conclusion}
+    \input{chapter-conclusion}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                            Bibliography                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliography}{} \label{ch:bibliography}
+	{\singlespacing
+		\bibliographystyle{./jf}
+    % This is your *.bib file.
+		\bibliography{./RFD}
+	}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                             Appendices                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\appendix
+\phantomsection
+\addcontentsline{toc}{chapter}{Appendices}
+
+\chapter{Variable Descriptions} \label{App:vardef}
+    \input{appendix-vardef}
+
+\chapter{Risk Factor Extraction} \label{App:scraping}
+    \input{appendix-scraping}
+
+\end{document}

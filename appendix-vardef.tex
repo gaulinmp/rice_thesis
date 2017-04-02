@@ -1,0 +1,69 @@
+{ \bgroup
+\singlespacing
+
+The following table defines the variables used in this paper.
+Variable names and calculations provided in brackets correspond to source database. For the regressions presented in the tables, the continuous variables are winsorized at the 1st and 99th percentiles.
+
+\begin{center}
+	\centering
+	\def\arraystretch{1.25}
+    \footnotesize
+	\begin{longtable*}{l  >{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{.7 \textwidth}}
+        \toprule
+		\textbf{Variable} 	& \textbf{Description} \\ \midrule 
+		\endfirsthead
+		\multicolumn{2}{c}{...continued from previous page.} \\
+		\toprule
+		\textbf{Variable} 	& \textbf{Description} \\ \midrule 
+		\endhead
+		\midrule
+		\multicolumn{2}{c}{Continued on next page...} \\ 
+		\endfoot
+		\bottomrule
+		\endlastfoot
+		Assets				& Total assets $ \{ AT \} $  \\ %\hline
+		Market Equity		& Market value of equity at fiscal year end. $ \{ CSHPRI * PRCC\_F \} $  \\ %\hline
+		Net Income/AT 		& Net income to lagged assets. $ \{  NI_{t}/AT_{t-1}  \} $  \\ %\hline
+		Operating Inc./AT 	& Operating income (after depreciation) to lagged assets. $ \{  OIADP_{t}/AT_{t-1}  \} $  \\ %\hline
+		Sales Growth  		& Ratio of change in sales to lagged assets. $ \{  (SALE_t - SALE_{t-1})/AT_{t-1}  \} $  \\ %\hline
+        Sales / AT  		& Sales to lagged assets. $ \{  SALE_t/AT_{t-1}  \} $  \\ %\hline
+        Book Equity			& Book value of equity. $ \{ (TEQ_{t}|AT_{t} - LT_{t}) + TXDITC_{t} - PSTK_{t} \} $  \\ %\hline
+		Book-to-Market  	& Book to market. $ \{ \text{Book Equity}_{t}/\text{Market Equity}_{t}  \} $  \\ %\hline
+		Leverage  			& Leverage $ \{ (DLTT_{t} + DLC_{t})/AT_{t} \} $  \\ %\hline
+		Tangibility  		& Tangibility $ \{ PPENT_{t}/AT_{t} \} $  \\ %\hline
+		Turnover  			& Ratio of average daily volume (CRSP) to outstanding shares at fiscal year end (Compustat). \\ %\hline
+		Beta  				& Market loading from CAPM model of daily returns on value weighted index, for all available days in the fiscal year. $ \{ RET = \alpha + \beta \cdot VWRETD + \epsilon \} $  \\ %\hline
+        Excess Returns  	& Cumulative excess daily returns during fiscal year. $ \{ (\prod RET - VWRETD + 1) - 1  \} $  \\ %\hline
+        Excess Ret. Std.	& Standard deviation of daily excess returns. $ \{ Std.\ Dev(RET- VWRETD)  \} $  \\ %\hline
+        Min. Excess Ret.	& Minimum daily excess return during fiscal year. $ \{ Min(RET- VWRETD)  \} $  \\ %\hline
+        Excess Ret. Skew	& Skewness of daily excess returns. $ \{ Skew(RET- VWRETD) \} $ \\ %\hline
+        CAR$_{+3\ day}$  	& Cumulative abnormal return spanning three business days starting on the filing date of the annual report, using a Fama-French Carhart factor model. Data from Kenneth French's website. $ \{ RET=MKTRF+SMB+HML+UMD+MOM+\epsilon \}$ \\ %\hline
+        CAR$_{+3\ months}$ 	& Cumulative abnormal return spanning 60 business days starting on the filing date of the annual report, using a Fama-French Carhart factor model. Data from Kenneth French's website. $ \{ RET=MKTRF+SMB+HML+UMD+MOM+\epsilon \}$ \\ %\hline
+		Bid-Ask Spread$_{+1\ year}$ & Average daily bid ask spread at closing for 240 business days starting on the filing date of the annual report, as percentage of average bid and ask. $\{ 200*(ASK - BID)/(ASK + BID) \}$ \\ %\hline
+		
+		Negative NI 		& Indicator variable equal to 1 if next year's net income is negative. $ \{ NI_{t+1} < 0 \} $\\ %\hline
+		Negative Op. Inc. 	& Indicator variable equal to 1 if next year's operating income is negative $ \{ OIADP_{t+1} < 0 \} $ \\ %\hline
+		Sales Decline 		& Indicator variable equal to 1 if next year's sales are lower than the current year's sales by 10\%  or 10 million dollars, whichever is larger. $ \{ SALE_{t+1} - SALE_{t} < -10\%*max(100, SALE_{t}) \} $\\ %\hline
+		Security Litigation	& Indicator variable equal to 1 if a securities litigation is filed in the subsequent year. \\ %\hline
+		Lawsuit Intensity	& Natural log of number of litigation events found in CapitalIQ Key Developments database in a given fiscal year.\\ %\hline
+		RF Comment 			& Indicator variable equal to 1 if an SEC comment letter is received in a given fiscal year that references risk factors. \\ %\hline
+		Comment (Any) 		& Indicator variable equal to 1 if any SEC comment letter is received in a given fiscal year, including those with a reference to risk factors. \\ %\hline
+		FPS Industry		& Indicator variable equal to 1 if the firm has an SIC code in one of the high litigation risk industries defined in \cite{francis_1994}. \\ %\hline
+        
+		\# Risk Factors 	& Total number of risk factors disclosed under Item 1A of an annual report. \\ %\hline
+		\# New RF 			& Number of new risk factors which were not present in the previous year's annual report. \\ %\hline
+   		\# Dropped RF 		& Number of risk factors which were in the previous year's annual report, but are no longer included in the present year.\\ %\hline
+		\# Kept RF 			& Number of risk factors which were in the previous year's annual report and persist in the current annual report.\\ %\hline
+		\# of Words 		& Total number of words in Item 1A of an annual report (excluding stop words). \\ %\hline
+		\# of Sentences 	& Total number of sentences in Item 1A of an annual report.\\ %\hline
+		\# of Specific Words& Total number of words identified by the Stanford Named Entity Recognition algorithm as being in categories: Location, Person, Organization \\ %\hline
+		\# of Numerics 		& Total number of numbers in Item 1A of an annual report. \\ %\hline
+		\# of Words/RF 		& Ratio of the total number of words to the total number of risk factors in Item 1A of an annual report (excluding stop words).\\ %\hline
+		Specificity 		& Ratio of the total number of specific words to the total number of risk factors in Item 1A of an annual report (excluding stop words).\\ %\hline
+		Numeric Intensity 	& Ratio of the total number of numbers to the total number of risk factors in Item 1A of an annual report (excluding stop words).\\ %\hline
+		FOG Index 			& Gunning Fog score for the text in Item 1A of an annual report (excluding stop words). Calculated as $\left\{ 0.4 \left(\frac{\# \ of\ words}{\#\ of\ sentences} + 100\frac{\#\ of\ complex\ words}{\#\ of\ words}\right) \right\}$ \\ %\hline
+		
+	\end{longtable*}
+\end{center}
+\egroup
+}

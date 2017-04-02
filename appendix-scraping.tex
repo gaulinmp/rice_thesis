@@ -1,0 +1,10 @@
+\noindent
+
+To derive an initial list of filings, I extract the gvkey and historical CIKs from the Compustat annual file, starting from 89,687 firm years.
+I then merge the non-missing CIKs from Compustat with the EDGAR filings index file provided by the SEC.%
+  \footnote{Located, for example, at
+            \bluehref{ftp://ftp.sec.gov/edgar/full-index/2005/QTR1/}{ftp.sec.gov/edgar/full-index/2005/QTR1/master.idx}.
+            Downloaded using script from
+            \bluehref{https://github.com/gaulinmp/pyedgar/blob/master/pyedgar/downloader.py}{github.com/gaulinmp/pyedgar}}
+I filter the index files to include only form 10-Ks, excluding amended 10-K/As, leaving 67,648 filings from 9,632 firms.
+Form 10-KSB is also included, but are no longer filed after 2009.
