@@ -1,4 +1,51 @@
 \documentclass[12pt]{ruthesis}
+
+\pdfinterwordspaceon
+\pdfminorversion=8
+
+\widowpenalty10000
+\clubpenalty10000
+\interfootnotelinepenalty=200
+
+\RequirePackage{amsmath}
+
+\RequirePackage[hang,flushmargin]{footmisc}
+\RequirePackage{setspace}
+
+\RequirePackage{caption}
+
+\RequirePackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\RequirePackage{microtype}
+% Disables fi -> ﬁ type ligatures
+\DisableLigatures[f]{}
+
+\RequirePackage{dcolumn}
+\RequirePackage{longtable}
+\RequirePackage{tabularx}
+\RequirePackage{afterpage}
+
+\usepackage[pdftex,
+            pdfpagelayout = OneColumn,
+            pdfpagemode = UseOutlines,
+            %TODO: Change these two values.
+%            pdftitle = "Risk Fact or Fiction: The Information Content of Risk Factor Disclosures",
+            pdftitle = {Risk Fact or Fiction: The Information Content of Risk Factor Disclosures},
+            pdfauthor = {Maclean Gaulin},
+            pdfdisplaydoctitle = true,
+            bookmarks,
+            bookmarksopen = true,
+            bookmarksnumbered = false,
+            breaklinks = true,
+            hidelinks,
+            colorlinks = false,
+            hyperindex = true,
+            hyperfigures]{hyperref}
+	\newcommand{\bluehref}[2]{{\color{blue}\href{#1}{#2}}}
+
+
+\RequirePackage[comma,longnamesfirst]{natbib}
+\RequirePackage{booktabs}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   .d8888b.                    888                          d8b                             %
 %  d88P  Y88b                   888                          Y8P                             %
@@ -37,53 +84,6 @@
 
 \address{Houston, Texas}
 \donemonth{March} \doneyear{2017} \makeindex
-
-
-\pdfinterwordspaceon
-\pdfminorversion=8
-
-\widowpenalty10000
-\clubpenalty10000
-\interfootnotelinepenalty=200
-
-\RequirePackage{amsmath}
-
-\RequirePackage[hang,flushmargin]{footmisc}
-\RequirePackage{setspace}
-
-\RequirePackage{caption}
-
-\RequirePackage[usenames,dvipsnames,svgnames,table]{xcolor}
-\RequirePackage{microtype}
-% Disables fi -> ﬁ type ligatures
-\DisableLigatures[f]{}
-
-\RequirePackage{dcolumn}
-\RequirePackage{longtable}
-\RequirePackage{tabularx}
-\RequirePackage{afterpage}
-
-\usepackage[pdftex,
-            pdfpagelayout = OneColumn,
-            pdfpagemode = UseOutlines,
-            %TODO: Change these two values.
-%            pdftitle = "Risk Fact or Fiction: The Information Content of Risk Factor Disclosures",
-            pdftitle = {\@title},
-            pdfauthor = "Maclean Gaulin",
-            pdfdisplaydoctitle = true,
-            bookmarks,
-            bookmarksopen = true,
-            bookmarksnumbered = false,
-            breaklinks = true,
-            hidelinks,
-            colorlinks = false,
-            hyperindex = true,
-            hyperfigures]{hyperref}
-	\newcommand{\bluehref}[2]{{\color{blue}\href{#1}{#2}}}
-
-
-\RequirePackage[comma,longnamesfirst]{natbib}
-\RequirePackage{booktabs}
 
 
 
